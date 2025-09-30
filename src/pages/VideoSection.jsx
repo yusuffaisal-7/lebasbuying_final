@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Award, Users, Zap, X, Volume2, VolumeX, Pause } from 'lucide-react';
+import logoLebas from '../assets/logo_lebas.png';
 
 const VideoSection = () => {
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [isVideoMuted, setIsVideoMuted] = useState(true);
+  const [currentVideoSrc, setCurrentVideoSrc] = useState("/src/assets/vd1.mov");
   const videoRef = useRef(null);
   const modalRef = useRef(null);
 
-  const handleVideoClick = () => {
+  const handleVideoClick = (videoSrc = "/src/assets/vd1.mov") => {
+    setCurrentVideoSrc(videoSrc);
     setIsVideoPopupOpen(true);
     setIsVideoPlaying(true);
   };
@@ -112,6 +115,14 @@ const VideoSection = () => {
                   <Play className="w-6 h-6 md:w-8 md:h-8 text-deep-teal ml-1" fill="currentColor" />
                 </button>
               </div>
+              {/* Logo Watermark */}
+              <div className="absolute top-4 right-4 z-10">
+                <img 
+                  src={logoLebas} 
+                  alt="Lebas Logo" 
+                  className="w-12 h-12 md:w-16 md:h-16 opacity-80 hover:opacity-100 transition-opacity duration-300"
+                />
+              </div>
               <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4 right-2 md:right-4">
                 <div className="bg-black/50 backdrop-blur-sm rounded-lg p-3 md:p-4">
                   <h4 className="font-bold font-space-grotesk text-white mb-1 text-sm md:text-base">
@@ -186,30 +197,52 @@ const VideoSection = () => {
               {
                 title: "Fabric Selection Process",
                 duration: "2:15",
+                video: "/src/assets/fabric_selection.mov",
                 image: "https://images.pexels.com/photos/6479607/pexels-photo-6479607.jpeg?auto=compress&cs=tinysrgb&w=600"
               },
               {
                 title: "Pattern Making & Cutting",
                 duration: "4:30",
+                video: "/src/pages/0930(1).mov",
                 image: "https://images.pexels.com/photos/7876354/pexels-photo-7876354.jpeg?auto=compress&cs=tinysrgb&w=600"
               },
               {
                 title: "Quality Control Standards",
                 duration: "3:20",
+                video: "/src/assets/3no.mov",
                 image: "https://images.pexels.com/photos/7876365/pexels-photo-7876365.jpeg?auto=compress&cs=tinysrgb&w=600"
               }
             ].map((video, index) => (
-              <div key={index} className="relative group cursor-pointer">
+              <div key={index} className="relative group cursor-pointer" onClick={() => video.video && handleVideoClick(video.video)}>
                 <div className="relative aspect-video rounded-xl overflow-hidden">
-                  <img 
-                    src={video.image} 
-                    alt={video.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  {video.video ? (
+                    <video 
+                      src={video.video}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    />
+                  ) : (
+                    <img 
+                      src={video.image} 
+                      alt={video.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-deep-teal/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="w-12 h-12 bg-mint-green rounded-full flex items-center justify-center">
                       <Play className="w-5 h-5 text-deep-teal ml-0.5" fill="currentColor" />
                     </div>
+                  </div>
+                  {/* Logo Watermark */}
+                  <div className="absolute top-2 right-2 z-10">
+                    <img 
+                      src={logoLebas} 
+                      alt="Lebas Logo" 
+                      className="w-8 h-8 opacity-80 hover:opacity-100 transition-opacity duration-300"
+                    />
                   </div>
                   <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                     {video.duration}
@@ -240,7 +273,7 @@ const VideoSection = () => {
             <div className="relative aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
               <video 
                 ref={videoRef}
-                src="/src/assets/vd1.mov"
+                src={currentVideoSrc}
                 className="w-full h-full object-cover"
                 autoPlay
                 muted={isVideoMuted}
@@ -258,6 +291,15 @@ const VideoSection = () => {
               >
                 Your browser does not support the video tag.
               </video>
+              
+              {/* Logo Watermark */}
+              <div className="absolute top-4 right-4 z-10">
+                <img 
+                  src={logoLebas} 
+                  alt="Lebas Logo" 
+                  className="w-16 h-16 opacity-90 hover:opacity-100 transition-opacity duration-300"
+                />
+              </div>
 
               {/* Custom Controls Overlay */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">

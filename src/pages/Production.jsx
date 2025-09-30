@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Settings, Zap, Shield, Clock } from 'lucide-react';
+import lebaImage from '../assets/leba.png';
 
 const Production = () => {
   const [isVisible, setIsVisible] = useState({});
@@ -115,7 +116,7 @@ const Production = () => {
             ref={setRef('showcase-image')}
           >
             <img 
-              src="https://images.pexels.com/photos/7876365/pexels-photo-7876365.jpeg?auto=compress&cs=tinysrgb&w=800" 
+              src={lebaImage} 
               alt="Professional sewing machines and production floor" 
               className="rounded-2xl shadow-2xl w-full h-96 object-cover"
             />
